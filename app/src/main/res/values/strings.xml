@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FireBase Project</string>
+    <string name="button_girisyap">Giriş yapın yada kayıt olun</string>
+    <string name="button_cikisyap">Çıkış Yap</string>
+    <string name="button_foto">Fotoğraf Yükle</string>
+    <string name="button_fotogor">Fotoğraf(ları) Görüntüle</string>
+    <string name="tv_email">Email: </string>
 </resources>
