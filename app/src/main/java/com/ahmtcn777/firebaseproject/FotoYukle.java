@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,8 +15,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.util.Calendar;
 
 public class FotoYukle extends Activity {
     Button btnyukle;
@@ -52,15 +49,22 @@ public class FotoYukle extends Activity {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             String email = user.getEmail();
             Uri uri = data.getData();
+            String fileName=data.getDataString();
+            String [] nameArray = fileName.split("/");
+            String name = nameArray[nameArray.length-1];
+            String [] emailArray = email.split("@");
+            email = emailArray[0];
+            ImageToDatabase image = new ImageToDatabase(user.getEmail(),name);
             StorageReference ref = referans.child(email).child(uri.getLastPathSegment());
             ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(FotoYukle.this, "Yükleme başarılı", Toast.LENGTH_SHORT).show();
+
                 }
             });
-            Calendar c = Calendar.getInstance();
-            dbRef.child("images").child(c.getTime().toString()).setValue(email + " tarafından yükleme yapıldı");
+            Toast.makeText(FotoYukle.this, "Yükleme başarılı", Toast.LENGTH_SHORT).show();
+            dbRef.child(email).setValue(image);
+            //dbRef.child("images").child(c.getTime().toString()).setValue(email + " tarafından yükleme yapıldı");
         }
     }
 }

@@ -10,9 +10,12 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Arrays;
+
 public class userPanel extends Activity {
     TextView tv_email;
 
+    public static final int RC_SIGN_IN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +33,30 @@ public class userPanel extends Activity {
     }
 
     public void fotogor(View view){
-
+        Intent i = new Intent(getApplicationContext(),FotoGor.class);
+        startActivity(i);
     }
 
 
     public void cikisYap(View view){
-        AuthUI.getInstance().signOut(this);
+        AuthUI.getInstance().signOut(getApplicationContext());
+
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(false)
+                        .setAvailableProviders(Arrays.asList(
+                                new AuthUI.IdpConfig.EmailBuilder().build()
+                        ))
+                        .build(),
+                RC_SIGN_IN);
+
+
+
+        /*
         Intent i = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(i);
-
+        */
         Toast.makeText(getApplicationContext(), "Çıkış yapıldı", Toast.LENGTH_SHORT).show();
     }
 

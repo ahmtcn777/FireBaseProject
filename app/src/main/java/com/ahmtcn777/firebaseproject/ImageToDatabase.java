@@ -13,4 +13,11 @@ public class ImageToDatabase {
         this.imageName=imageName;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
 }
