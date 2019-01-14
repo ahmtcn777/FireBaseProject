@@ -64,6 +64,8 @@ public class FotoYukle extends Activity {
             });
             Toast.makeText(FotoYukle.this, "Yükleme başarılı", Toast.LENGTH_SHORT).show();
             dbRef.child(email).setValue(image);
+            Intent i = new Intent(getApplicationContext(),userPanel.class);
+            startActivity(i);
             //dbRef.child("images").child(c.getTime().toString()).setValue(email + " tarafından yükleme yapıldı");
         }
     }

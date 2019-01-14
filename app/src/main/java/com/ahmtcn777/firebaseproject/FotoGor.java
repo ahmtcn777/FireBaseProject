@@ -1,6 +1,7 @@
 package com.ahmtcn777.firebaseproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -47,16 +48,24 @@ public class FotoGor extends Activity {
         user_email = emailArray[0];
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference dbRef = database.getReference(user_email);
+
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ImageToDatabase img = dataSnapshot.getValue(ImageToDatabase.class);
-                Log.d("onCreate1", img.imageName+img.userEmail);
-                FotoGoster(img.imageName);
+                if(!dataSnapshot.exists()){
+                    Toast.makeText(FotoGor.this, "Yüklü resim bulunamadı.", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(),userPanel.class);
+                    startActivity(i);
+                }
+                else{
+                    ImageToDatabase img = dataSnapshot.getValue(ImageToDatabase.class);
+                    Log.d("onCreate1", img.imageName+img.userEmail);
+                    FotoGoster(img.imageName);
+                }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
@@ -65,7 +74,6 @@ public class FotoGor extends Activity {
         Log.d("FotoGoster", imageName);
         StorageReference indir = referans.child(user_email).child(imageName);
         img=findViewById(R.id.imageView);
-
 
         indir.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
