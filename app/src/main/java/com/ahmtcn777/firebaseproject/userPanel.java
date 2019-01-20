@@ -73,4 +73,8 @@ public class userPanel extends Activity {
         Toast.makeText(getApplicationContext(), "Çıkış yapıldı", Toast.LENGTH_SHORT).show();
     }
 
+    public void showallimages(View view){
+        startActivity(new Intent(getApplicationContext(),imageShowAll.class));
+    }
+
 }

@@ -3,6 +3,6 @@
     <string name="button_girisyap">Giriş yapın yada kayıt olun</string>
     <string name="button_cikisyap">Çıkış Yap</string>
     <string name="button_foto">Fotoğraf Yükle</string>
-    <string name="button_fotogor">Fotoğraf(ları) Görüntüle</string>
+    <string name="button_fotogor">Fotoğraf Görüntüle</string>
     <string name="tv_name">Merhaba, </string>
 </resources>

@@ -7,7 +7,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,8 +26,11 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class FotoGor extends Activity {
+    TextView tv;
     ImageView img;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference referans = storage.getReference();
@@ -60,6 +65,9 @@ public class FotoGor extends Activity {
                 else{
                     ImageToDatabase img = dataSnapshot.getValue(ImageToDatabase.class);
                     Log.d("onCreate1", img.imageName+img.userEmail);
+                    tv = findViewById(R.id.tv_time);
+                    tv.setText(img.time);
+                    tv.setVisibility(View.VISIBLE);
                     FotoGoster(img.imageName);
                 }
 
@@ -74,7 +82,7 @@ public class FotoGor extends Activity {
         Log.d("FotoGoster", imageName);
         StorageReference indir = referans.child(user_email).child(imageName);
         img=findViewById(R.id.imageView);
-
+        tv = findViewById(R.id.tv_time);
         indir.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -82,6 +90,9 @@ public class FotoGor extends Activity {
 
                 Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                 img.setImageBitmap(bitmap);
+
+                Calendar cal = Calendar.getInstance();
+                tv.setText(cal.getTime().toString());
             }
         });
     }
